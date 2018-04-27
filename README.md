@@ -58,3 +58,21 @@ If you ever need to revoke access, simply execute:
 
 * See [Using a VPN Server to Connect to Your AWS VPC for Just the Cost of an EC2 Nano Instance](https://medium.com/@redgeoff/using-a-vpn-server-to-connect-to-your-aws-vpc-for-just-the-cost-of-an-ec2-nano-instance-3c81269c71c2)
 * See [How To Set Up an OpenVPN Server on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-16-04)
+
+## Port Forwarding to Client
+
+Enable port forwarding on the server:
+    
+    $ sysctl -w net.ipv4.ip_forward=1 
+
+Setup port forwarding rules:
+    
+    $ sudo iptables -t nat -A PREROUTING -d SERVER_IP_ADDR -p tcp --dport 80 -j DNAT --to-dest CLIENT_IP_ADDR:SERVICE_PORT
+    
+Check NAT IPTABLES:
+
+    $ sudo iptables -t nat -L
+    
+Flush NAT IPTables:
+
+    $ sudo iptables -t nat -F
